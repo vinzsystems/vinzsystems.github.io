@@ -1,307 +1,108 @@
-/*==================================================
-                VINZSYSTEMS
-                script.js v1.0
-==================================================*/
+/* ==========================================
+   PORTFOLIO MODAL
+========================================== */
 
-"use strict";
+const portfolioButtons = document.querySelectorAll(".portfolio-card .btn");
+const portfolioCards = document.querySelectorAll(".portfolio-card");
 
-/*==================================================
-                DOM ELEMENTS
-==================================================*/
-
-// Header
-const header = document.querySelector(".header");
-
-// Navigation
-const navLinks = document.querySelectorAll(".navbar a");
-const sections = document.querySelectorAll("section[id]");
-
-// Service Buttons
-const serviceButtons = document.querySelectorAll(".service-buttons button");
-
-// Preview Elements
-const previewImage = document.getElementById("previewImage");
-const previewTitle = document.getElementById("previewTitle");
-const previewDescription = document.getElementById("previewDescription");
-
-// Demo Overlay
-const launchDemo = document.getElementById("launchDemo");
-const demoOverlay = document.getElementById("demoOverlay");
-const closeDemo = document.getElementById("closeDemo");
-const demoTitle = document.getElementById("demoTitle");
-const demoFrame = document.getElementById("demoFrame");
-
-
-/*==================================================
-                DASHBOARD DATA
-==================================================*/
-
-const dashboards = {
-
-    dashboard: {
-
-        title: "Business Operations Dashboard",
-
+const portfolioProjects = [
+    {
+        title: "Business Dashboard",
         image: "images/dashboard-demo.png",
-
         description:
-            "A cloud-based dashboard designed to simplify reporting, monitor business performance, automate repetitive tasks, and provide real-time insights using Google Sheets, Apps Script, and modern automation techniques.",
-
-        demo:
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRGBV0EIAktMJs2AKJw-OjuWFD-iMlLe7NrZaR2ii985mXy-btBTgXe88VO5U5Z38v46rRBwDhyFmBe/pubhtml?widget=true&headers=false"
-
+            "Interactive Google Sheets dashboard with KPIs, charts, automated reports, and real-time monitoring."
     },
-
-    coming: {
-
-        title: "Coming Soon",
-
-        image: "images/coming-soon.png",
-
+    {
+        title: "Workflow Automation",
+        image: "images/workflow.png",
         description:
-            "This solution is currently under development and will be available soon. Stay tuned for future releases from VinzSystems.",
-
-        demo: ""
-
+            "Automated approval workflows, email notifications, document generation, and data synchronization."
+    },
+    {
+        title: "Inventory Management",
+        image: "images/inventory.png",
+        description:
+            "Inventory tracking system with stock monitoring, barcode support, supplier management, and reporting."
+    },
+    {
+        title: "Sales Dashboard",
+        image: "images/sales.png",
+        description:
+            "Sales analytics dashboard with charts, customer insights, forecasting, and monthly reports."
     }
+];
 
-};
-/*==================================================
-                STICKY HEADER
-==================================================*/
+/* Create Modal */
+const portfolioModal = document.createElement("div");
+portfolioModal.className = "portfolio-modal";
 
-function toggleHeader() {
+portfolioModal.innerHTML = `
+    <div class="portfolio-modal-content">
 
-    if (window.scrollY > 50) {
+        <span class="portfolio-close">&times;</span>
 
-        header.classList.add("scrolled");
+        <img id="portfolioImage" src="" alt="">
 
-    } else {
+        <h2 id="portfolioTitle"></h2>
 
-        header.classList.remove("scrolled");
+        <p id="portfolioDescription"></p>
 
-    }
+    </div>
+`;
 
-}
+document.body.appendChild(portfolioModal);
 
-// Run immediately
-toggleHeader();
+const modalImage = document.getElementById("portfolioImage");
+const modalTitle = document.getElementById("portfolioTitle");
+const modalDescription = document.getElementById("portfolioDescription");
+const closeModal = document.querySelector(".portfolio-close");
 
-// Run while scrolling
-window.addEventListener("scroll", toggleHeader);
+/* Open Modal */
 
+portfolioButtons.forEach((button, index) => {
 
-/*==================================================
-                ACTIVE NAVIGATION
-==================================================*/
+    button.addEventListener("click", function(e) {
 
-function updateActiveNav() {
+        e.preventDefault();
 
-    let currentSection = "";
+        modalImage.src = portfolioProjects[index].image;
+        modalTitle.textContent = portfolioProjects[index].title;
+        modalDescription.textContent = portfolioProjects[index].description;
 
-    sections.forEach(section => {
-
-        const sectionTop = section.offsetTop - 120;
-        const sectionHeight = section.offsetHeight;
-
-        if (
-            window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight
-        ) {
-
-            currentSection = section.getAttribute("id");
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (link.getAttribute("href") === "#" + currentSection) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-}
-
-// Run immediately
-updateActiveNav();
-
-// Update while scrolling
-window.addEventListener("scroll", updateActiveNav);
-/*==================================================
-                SERVICE SWITCHER
-==================================================*/
-
-let currentDashboard = "dashboard";
-
-serviceButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        // Remove active state from all buttons
-        serviceButtons.forEach(btn => {
-
-            btn.classList.remove("active");
-
-        });
-
-        // Activate selected button
-        button.classList.add("active");
-
-        // Get selected dashboard
-        currentDashboard = button.dataset.demo;
-
-        // Get dashboard data
-        const data = dashboards[currentDashboard];
-
-        // Safety check
-        if (!data) return;
-
-        // Update preview image
-        previewImage.src = data.image;
-        previewImage.alt = data.title;
-
-        // Update preview text
-        previewTitle.textContent = data.title;
-        previewDescription.textContent = data.description;
+        portfolioModal.classList.add("show");
 
     });
 
 });
-/*==================================================
-                DEMO OVERLAY
-==================================================*/
 
-function openDemo() {
+/* Close Button */
 
-    // Get dashboard data
-    const data = dashboards[currentDashboard];
+closeModal.addEventListener("click", function() {
 
-    // Safety check
-    if (!data) return;
+    portfolioModal.classList.remove("show");
 
-    // Update overlay title
-    demoTitle.textContent = data.title;
+});
 
-    // Load dashboard if available
-    if (data.demo) {
+/* Click Outside */
 
-        demoFrame.src = data.demo;
+portfolioModal.addEventListener("click", function(e) {
 
-    } else {
+    if (e.target === portfolioModal) {
 
-        // Coming Soon / No Demo Available
-        demoFrame.src = "about:blank";
-
-    }
-
-    // Show overlay
-    demoOverlay.classList.add("active");
-
-}
-
-
-function closeDemoPanel() {
-
-    // Hide overlay
-    demoOverlay.classList.remove("active");
-
-    // Stop the embedded page
-    demoFrame.src = "";
-
-}
-
-
-// Launch Demo Button
-if (launchDemo) {
-
-    launchDemo.addEventListener("click", openDemo);
-
-}
-
-
-// Close Button
-if (closeDemo) {
-
-    closeDemo.addEventListener("click", closeDemoPanel);
-
-}
-
-
-// Click Outside Overlay
-if (demoOverlay) {
-
-    demoOverlay.addEventListener("click", (event) => {
-
-        if (event.target === demoOverlay) {
-
-            closeDemoPanel();
-
-        }
-
-    });
-
-}
-/*==================================================
-                UX POLISH
-==================================================*/
-
-// Close demo using the Escape key
-document.addEventListener("keydown", (event) => {
-
-    if (
-        event.key === "Escape" &&
-        demoOverlay &&
-        demoOverlay.classList.contains("active")
-    ) {
-
-        closeDemoPanel();
+        portfolioModal.classList.remove("show");
 
     }
 
 });
 
+/* ESC Key */
 
-/*==================================================
-                INITIALIZE
-==================================================*/
+document.addEventListener("keydown", function(e) {
 
-window.addEventListener("load", () => {
+    if (e.key === "Escape") {
 
-    // Initialize header state
-    toggleHeader();
-
-    // Initialize active navigation
-    updateActiveNav();
-
-    // Load default dashboard preview
-    const data = dashboards[currentDashboard];
-
-    if (data) {
-
-        previewImage.src = data.image;
-        previewImage.alt = data.title;
-
-        previewTitle.textContent = data.title;
-
-        previewDescription.textContent = data.description;
+        portfolioModal.classList.remove("show");
 
     }
-
-    // Highlight default active service button
-    serviceButtons.forEach(button => {
-
-        button.classList.toggle(
-            "active",
-            button.dataset.demo === currentDashboard
-        );
-
-    });
 
 });
