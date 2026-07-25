@@ -1,108 +1,522 @@
 /* ==========================================
-   PORTFOLIO MODAL
+   HERO APP
 ========================================== */
 
-const portfolioButtons = document.querySelectorAll(".portfolio-card .btn");
-const portfolioCards = document.querySelectorAll(".portfolio-card");
+const heroContent = document.getElementById("heroContent");
+const heroDashboard = document.getElementById("heroDashboard");
 
-const portfolioProjects = [
-    {
-        title: "Business Dashboard",
-        image: "images/dashboard-demo.png",
-        description:
-            "Interactive Google Sheets dashboard with KPIs, charts, automated reports, and real-time monitoring."
+const navHome = document.getElementById("navHome");
+const navAbout = document.getElementById("navAbout");
+const navServices = document.getElementById("navServices");
+const navProjects = document.getElementById("navProjects");
+const navContact = document.getElementById("navContact");
+
+const pages = {
+
+    home: {
+
+        left: heroContent.innerHTML,
+
+        right: heroDashboard.innerHTML
+
     },
-    {
-        title: "Workflow Automation",
-        image: "images/workflow.png",
-        description:
-            "Automated approval workflows, email notifications, document generation, and data synchronization."
-    },
-    {
-        title: "Inventory Management",
-        image: "images/inventory.png",
-        description:
-            "Inventory tracking system with stock monitoring, barcode support, supplier management, and reporting."
-    },
-    {
-        title: "Sales Dashboard",
-        image: "images/sales.png",
-        description:
-            "Sales analytics dashboard with charts, customer insights, forecasting, and monthly reports."
-    }
-];
 
-/* Create Modal */
-const portfolioModal = document.createElement("div");
-portfolioModal.className = "portfolio-modal";
+    about: {
 
-portfolioModal.innerHTML = `
-    <div class="portfolio-modal-content">
+        left: `
 
-        <span class="portfolio-close">&times;</span>
+<p class="small-title">
+    ABOUT VINZSYSTEMS
+</p>
 
-        <img id="portfolioImage" src="" alt="">
+<h1>
+    Turning Ideas Into
+    <span>Business Automation.</span>
+</h1>
 
-        <h2 id="portfolioTitle"></h2>
+<p class="description">
+    VinzSystems helps businesses automate workflows through
+    Google Sheets, Apps Script, Excel Automation, and custom
+    web development. Every solution is designed to save time,
+    reduce repetitive work, and improve productivity.
+</p>
 
-        <p id="portfolioDescription"></p>
+<div class="buttons">
+
+    <a href="#" class="btn-primary" id="btnFounder">
+    About VinzSystems
+</a>
+
+</div>
+
+`,
+
+        right: `
+
+<div class="dashboard-header">
+
+    <h3>About VinzSystems</h3>
+
+    <span class="status">
+        ● Since 2017
+    </span>
+
+</div>
+
+<div class="dashboard-body">
+
+    <div class="metric">
+
+        <p>Mission</p>
+
+        <Large>
+            Build smart automation that helps businesses work faster.
+        </Large>
 
     </div>
-`;
 
-document.body.appendChild(portfolioModal);
+    <div class="metric">
 
-const modalImage = document.getElementById("portfolioImage");
-const modalTitle = document.getElementById("portfolioTitle");
-const modalDescription = document.getElementById("portfolioDescription");
-const closeModal = document.querySelector(".portfolio-close");
+        <p>Specialty</p>
 
-/* Open Modal */
+        <h2>Automation</h2>
 
-portfolioButtons.forEach((button, index) => {
+    </div>
 
-    button.addEventListener("click", function(e) {
+    <div class="metric">
+
+        <p>Technology</p>
+
+        <Large>
+            Google Sheets • Apps Script • Excel • HTML • CSS • JavaScript
+        </Large>
+
+    </div>
+
+</div>
+
+`
+
+    }, 
+
+    services: {
+
+    left: `
+
+<p class="small-title">
+    OUR SERVICES
+</p>
+
+<h1>
+    Smart Solutions
+    <span>For Your Business.</span>
+</h1>
+
+<p class="description">
+    VinzSystems provides automation and development services that
+    simplify business processes, eliminate repetitive tasks, and
+    improve productivity.
+</p>
+
+<div class="buttons">
+
+    <a href="#" class="btn-primary" id="btnServicesCatalog">
+    Our Services
+</a>
+
+</div>
+
+`,
+
+    right: `
+
+<div class="dashboard-header">
+
+    <h3>Services</h3>
+
+    <span class="status">
+        ● Available
+    </span>
+
+</div>
+
+<div class="dashboard-body">
+
+    <div class="metric">
+
+        <p>Google Workspace</p>
+
+        <small>
+            Google Sheets & Apps Script Automation
+        </small>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Development</p>
+
+        <small>
+            Custom Websites & Dashboards
+        </small>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Automation</p>
+
+        <small>
+            Workflow Optimization & Reporting
+        </small>
+
+    </div>
+
+</div>
+
+`
+
+},
+
+projects: {
+
+    left: `
+
+<p class="small-title">
+    FEATURED PROJECTS
+</p>
+
+<h1>
+    Real Solutions
+    <span>Built for Businesses.</span>
+</h1>
+
+<p class="description">
+    Explore automation systems, dashboards, workflow solutions,
+    and custom web applications designed to increase productivity
+    and simplify daily operations.
+</p>
+
+<div class="buttons">
+
+    <a href="#" class="btn-primary">
+        View Projects
+    </a>
+
+</div>
+
+`,
+
+    right: `
+
+<div class="dashboard-header">
+
+    <h3>Projects</h3>
+
+    <span class="status">
+        ● Portfolio
+    </span>
+
+</div>
+
+<div class="dashboard-body">
+
+    <div class="metric">
+
+        <p>Completed Systems</p>
+
+        <h2>10+</h2>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Specialties</p>
+
+        <small>
+            Dashboards • Automation • Web Apps
+        </small>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Goal</p>
+
+        <small>
+            Deliver reliable business solutions.
+        </small>
+
+    </div>
+
+</div>
+
+`
+
+},
+
+contact: {
+
+    left: `
+
+<p class="small-title">
+    CONTACT US
+</p>
+
+<h1>
+    Let's Build
+    <span>Something Amazing.</span>
+</h1>
+
+<p class="description">
+    Have a project in mind? Whether it's business automation,
+    dashboards, workflow optimization, or a custom web application,
+    let's discuss how VinzSystems can help.
+</p>
+
+<div class="buttons">
+
+    <a href="mailto:VinzSystems@gmail.com" class="btn-primary">
+        Send Email
+    </a>
+
+</div>
+
+`,
+
+    right: `
+
+<div class="dashboard-header">
+
+    <h3>Contact</h3>
+
+    <span class="status">
+        ● Available for Projects
+    </span>
+
+</div>
+
+<div class="dashboard-body">
+
+    <div class="metric">
+
+        <p>Email</p>
+
+        <Large>
+            VinzSystems@gmail.com
+        </Large>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Response Time</p>
+
+        <h2>&lt;24 hrs</h2>
+
+    </div>
+
+    <div class="metric">
+
+        <p>Status</p>
+
+        <small>
+            Accepting Freelance Projects
+        </small>
+
+    </div>
+
+</div>
+
+`
+
+},
+
+founder:{
+
+    left:`
+
+<p class="small-title">
+    MEET THE FOUNDER
+</p>
+
+<h1>
+    Building Smart
+    <span>Digital Solutions.</span>
+</h1>
+
+<p class="description founder-description">
+    VinzSystems was founded by an Information Technology graduate with
+    a passion for automation, software development, and business innovation.
+    Combining technical expertise with real-world operational experience,
+    VinzSystems focuses on creating practical digital solutions that simplify
+    workflows, improve productivity, and help businesses embrace automation.
+</p>
+
+<div class="buttons">
+
+    <a href="#" class="btn-primary">
+        Download Resume
+    </a>
+
+</div>
+
+`,
+
+    right:`
+
+<div class="dashboard-header">
+
+    <h3>Founder Profile</h3>
+
+    <span class="status">
+        ● Professional
+    </span>
+
+</div>
+
+<div class="dashboard-body">
+
+    <div class="metric">
+
+        <p><strong>Education</strong></p>
+
+        <small>
+            BS Information Technology
+            <br>
+            Major in Programming
+        </small>
+
+    </div>
+
+    <div class="metric">
+
+    <p><strong>Expertise</strong></p>    
+    
+
+        <small>
+            Google Apps Script,
+            Google Workspace,
+            Excel Automation,
+            Web Development
+        </small>
+
+    </div>
+
+    <div class="metric">
+
+        <p><strong>Mission</strong></p> 
+
+        <small>
+            Helping organizations automate workflows
+            through reliable and modern technology.
+        </small>
+
+    </div>
+
+</div>
+
+`
+
+},
+
+
+
+
+
+};
+
+
+/* ==========================================
+   HERO PAGE FUNCTION
+========================================== */
+
+function showPage(page) {
+
+    if (!pages[page]) return;
+
+    heroContent.classList.add("hero-hidden");
+    heroDashboard.classList.add("hero-hidden");
+
+    setTimeout(() => {
+
+        heroContent.innerHTML = pages[page].left;
+        heroDashboard.innerHTML = pages[page].right;
+
+
+const btnFounder = document.getElementById("btnFounder");
+
+if(btnFounder){
+
+    btnFounder.addEventListener("click", function(e){
 
         e.preventDefault();
 
-        modalImage.src = portfolioProjects[index].image;
-        modalTitle.textContent = portfolioProjects[index].title;
-        modalDescription.textContent = portfolioProjects[index].description;
-
-        portfolioModal.classList.add("show");
+        showPage("founder");
 
     });
 
+}
+
+const btnServicesCatalog = document.getElementById("btnServicesCatalog");
+
+if(btnServicesCatalog){
+
+    btnServicesCatalog.addEventListener("click", function(e){
+
+        e.preventDefault();
+
+        showPage("serviceCatalog");
+
+    });
+
+}
+        heroContent.classList.remove("hero-hidden");
+        heroDashboard.classList.remove("hero-hidden");
+
+    }, 450);
+
+}
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+navHome.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    showPage("home");
+
 });
 
-/* Close Button */
+navAbout.addEventListener("click", function(e){
 
-closeModal.addEventListener("click", function() {
+    e.preventDefault();
 
-    portfolioModal.classList.remove("show");
+    showPage("about");
+
+});
+navServices.addEventListener("click", function(e){
+
+    e.preventDefault();
+
+    showPage("services");
 
 });
 
-/* Click Outside */
+navProjects.addEventListener("click", function(e){
 
-portfolioModal.addEventListener("click", function(e) {
+    e.preventDefault();
 
-    if (e.target === portfolioModal) {
-
-        portfolioModal.classList.remove("show");
-
-    }
+    showPage("projects");
 
 });
 
-/* ESC Key */
+navContact.addEventListener("click", function(e){
 
-document.addEventListener("keydown", function(e) {
+    e.preventDefault();
 
-    if (e.key === "Escape") {
-
-        portfolioModal.classList.remove("show");
-
-    }
+    showPage("contact");
 
 });
