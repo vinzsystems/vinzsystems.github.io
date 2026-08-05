@@ -356,7 +356,7 @@ founder:{
 <div class="buttons">
 
     <a href="#" class="btn-primary">
-        Download Resume
+        View Resume
     </a>
 
 </div>
